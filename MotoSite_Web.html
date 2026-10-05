@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MotoSite | La enciclopedia definitiva del motor</title>
+  <meta name="description" content="Descubre el legado técnico y la historia de las motocicletas más emblemáticas del mundo.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+:root {
+  --negro: #000;
+  --blanco: #fff;
+  --fondo-hero: #fafafa;
+  --fondo-seccion: #f3f3f3;
+  --fondo-alterno: #ebebeb;
+  --rojo: #d51c29;
+  --rojo-oscuro: #b3131f;
+  --borde-suave: #bdbdbd;
+  --texto: #111;
+  --display: "Archivo", "Arial Black", Impact, sans-serif;
+  --cuerpo: "Inter", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --ancho: 1180px;
+  --margen: clamp(20px, 3.5vw, 44px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--cuerpo);
+  color: var(--texto);
+  background: var(--blanco);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 3px solid var(--rojo); outline-offset: 3px; }
+
+.display {
+  font-family: var(--display);
+  font-weight: 900;
+  font-stretch: 125%;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  margin: 0;
+}
+.contenedor {
+  width: 100%;
+  max-width: calc(var(--ancho) + var(--margen) * 2);
+  margin-inline: auto;
+  padding-inline: var(--margen);
+}
+
+/* Imágenes con fondo de reserva mientras subes las tuyas */
+.marco { background: #2a2a2a; overflow: hidden; }
+.marco img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Botones ---------- */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font: 500 1rem/1.25 var(--cuerpo);
+  border-radius: 999px;
+  padding: 14px 32px;
+  border: 2px solid var(--rojo);
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .2s, color .2s, transform .15s, box-shadow .2s;
+}
+.btn-solido { background: var(--rojo); color: var(--blanco); }
+.btn-solido:hover { background: var(--rojo-oscuro); border-color: var(--rojo-oscuro); box-shadow: 0 6px 16px rgba(213, 28, 41, .35); }
+.btn-borde { background: transparent; color: var(--rojo); }
+.btn-borde:hover { background: var(--rojo); color: var(--blanco); box-shadow: 0 6px 16px rgba(213, 28, 41, .25); }
+
+/* Interacción: se levanta un poco al pasar el cursor, se hunde al hacer clic */
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(.96); }
+
+/* Onda al hacer clic (efecto "ripple"), generada por el JavaScript */
+.btn .onda {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .55);
+  transform: scale(0);
+  animation: expandir-onda .55s ease-out forwards;
+  pointer-events: none;
+  z-index: -1;
+}
+.btn-borde .onda { background: rgba(213, 28, 41, .25); }
+@keyframes expandir-onda {
+  to { transform: scale(2.8); opacity: 0; }
+}
+
+/* ---------- Navegación ---------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--blanco);
+  border-bottom: 2px solid var(--negro);
+}
+.nav-interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px var(--margen);
+  max-width: 1400px;
+  margin-inline: auto;
+}
+.logo { display: flex; align-items: center; gap: 8px; font: 800 1.2rem/1 var(--cuerpo); letter-spacing: -0.02em; }
+.logo svg { width: 38px; height: 30px; }
+.nav-lista { display: flex; align-items: center; gap: clamp(16px, 3.2vw, 46px); list-style: none; margin: 0; padding: 0; }
+.nav-lista a {
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color .2s, opacity .2s;
+}
+.nav-lista a:hover,
+.nav-lista a[aria-current="page"] { border-bottom-color: var(--negro); }
+.nav-lista a:active { opacity: .6; }
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 2px solid var(--negro);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font: 500 0.95rem var(--cuerpo);
+  cursor: pointer;
+  transition: background-color .2s, transform .15s;
+}
+.nav-toggle:hover { background: var(--fondo-seccion); }
+.nav-toggle:active { transform: scale(.95); }
+
+/* ---------- Hero ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+  background: var(--fondo-hero);
+}
+.hero-texto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 26px;
+  padding: 48px var(--margen);
+}
+.hero-texto h1 { font-size: clamp(3rem, 8.4vw, 6.4rem); }
+.hero-texto p { margin: 0; max-width: 40ch; font-size: 1.15rem; line-height: 1.55; }
+.hero-imagen { border-left: 3px solid var(--negro); background: #0d0d0d; }
+.hero-imagen img { object-position: 30% center; }
+
+/* ---------- Secciones ---------- */
+.seccion { padding: clamp(56px, 8vw, 96px) 0; background: var(--fondo-seccion); }
+.seccion-alterna { background: var(--fondo-alterno); }
+.titulo-seccion { font-size: clamp(2rem, 4.6vw, 3.4rem); }
+.regla { border: 0; border-top: 2px solid var(--negro); margin: 22px 0 0; }
+
+/* Misión */
+.mision-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+  margin-top: clamp(40px, 6vw, 80px);
+}
+.mision-grid p { margin: 0; max-width: 52ch; font-size: 1.05rem; }
+.mision-grid .marco { aspect-ratio: 16 / 10; }
+
+/* Blog */
+.blog-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 44px;
+}
+.blog-cabecera .btn { padding: 12px 34px; max-width: 160px; }
+.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.post {
+  display: flex;
+  flex-direction: column;
+  background: var(--fondo-seccion);
+  border: 2px solid var(--borde-suave);
+  transition: box-shadow .2s, transform .2s;
+}
+.post:hover { box-shadow: 0 10px 26px rgba(0,0,0,.08); transform: translateY(-3px); }
+.post .marco { aspect-ratio: 16 / 9; }
+.post-cuerpo { display: flex; flex-direction: column; flex: 1; padding: 28px 24px 22px; }
+.post-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #a9a9a9;
+  position: relative; overflow: hidden; flex: none;
+}
+.avatar::before { content: ""; position: absolute; left: 50%; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: #e4e4e4; transform: translateX(-50%); }
+.avatar::after { content: ""; position: absolute; left: 50%; top: 21px; width: 24px; height: 20px; border-radius: 50%; background: #e4e4e4; transform: translateX(-50%); }
+.post-meta small { display: block; font-size: 0.75rem; line-height: 1.35; }
+.post h3 { margin: 0 0 14px; font: 500 1.5rem/1.3 var(--cuerpo); letter-spacing: -0.01em; }
+.post h3 a:hover { text-decoration: underline; }
+.post-extracto { margin: 0 0 auto; padding-bottom: 28px; font-size: 1rem; line-height: 1.6; color: #333; }
+.post-pie {
+  display: flex; align-items: center; gap: 18px;
+  border-top: 2px solid var(--borde-suave);
+  padding-top: 16px; font-size: 0.85rem;
+}
+.post-pie span { display: inline-flex; align-items: center; gap: 6px; }
+.post-pie svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.post-pie .me-gusta { margin-left: auto; color: #e0303f; cursor: pointer; transition: transform .15s; }
+.post-pie .me-gusta:hover { transform: scale(1.15); }
+.post-pie .me-gusta:active { transform: scale(.9); }
+.post-pie .me-gusta.activo svg { fill: currentColor; }
+
+/* Cultura en movimiento */
+.cultura h2 { margin-bottom: 26px; }
+.cultura p { margin: 0 0 56px; font-size: 1.02rem; line-height: 1.75; max-width: 120ch; }
+.cultura .marco { aspect-ratio: 16 / 9; }
+
+/* Ingeniería y pasión */
+.pasion { text-align: center; }
+.pasion h2 { color: var(--rojo); text-transform: uppercase; font-size: clamp(2rem, 5vw, 3.6rem); }
+.pasion p { max-width: 62ch; margin: 30px auto 40px; font-size: 0.95rem; line-height: 1.6; }
+.pasion .marco { aspect-ratio: 16 / 7.6; }
+
+/* Tiendas y servicios */
+.tiendas h2 { font-size: clamp(1.4rem, 2.4vw, 1.7rem); margin-bottom: 40px; }
+.tiendas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.tienda {
+  display: flex; flex-direction: column;
+  border: 2px solid var(--negro);
+  background: var(--fondo-seccion);
+  padding: 18px 18px 20px;
+  transition: box-shadow .2s, transform .2s;
+}
+.tienda:hover { box-shadow: 0 10px 26px rgba(0,0,0,.12); transform: translateY(-3px); }
+.tienda .marco { aspect-ratio: 1 / 1; margin-bottom: 22px; }
+.tienda-tipo { color: var(--rojo); font-size: 0.9rem; margin: 0 0 4px; }
+.tienda h3 { font: 800 1.35rem/1.2 var(--display); font-stretch: 125%; letter-spacing: -0.01em; margin: 0 0 14px; }
+.tienda p.desc { margin: 0 0 26px; font-size: 1rem; line-height: 1.55; flex: 1; }
+.tienda .btn { width: 100%; padding: 12px 24px; }
+
+/* Seguridad */
+.seguridad { background: var(--blanco); padding: clamp(56px, 8vw, 96px) 0; }
+.seguridad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+.seguridad-texto { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; max-width: 46ch; }
+.seguridad-texto h2 { font-size: clamp(1.9rem, 3.8vw, 2.9rem); line-height: 1.05; }
+.seguridad-texto p { margin: 0; font-size: 1rem; }
+.seguridad-texto .etiqueta { color: var(--rojo); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.seguridad-imagen { aspect-ratio: 1 / 1; width: 100%; max-width: 440px; justify-self: start; background: #111; }
+
+/* Cinta de texto en movimiento */
+.cinta { background: var(--rojo); color: var(--blanco); overflow: hidden; padding: 28px 0; }
+.cinta-pista { display: flex; width: max-content; animation: desplazar 32s linear infinite; }
+.cinta:hover .cinta-pista { animation-play-state: paused; }
+.cinta-grupo { display: flex; flex: none; }
+.cinta-grupo span {
+  font: 900 clamp(1.3rem, 3vw, 2.1rem)/1 var(--display);
+  font-stretch: 125%;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding-right: 1.6em;
+}
+@keyframes desplazar { to { transform: translateX(-50%); } }
+
+/* Pie */
+.pie { background: var(--fondo-seccion); border-top: 2px solid var(--negro); padding: 36px 0 28px; }
+.pie-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+  margin-bottom: 40px;
+}
+.pie-logo { font-size: 0.85rem; }
+.pie-logo svg { width: 22px; height: 18px; }
+.pie-titulo { font: 800 0.85rem/1.2 var(--display); font-stretch: 125%; text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 12px; }
+.pie p { margin: 0; font-size: 0.82rem; line-height: 1.55; }
+.pie a:hover { text-decoration: underline; }
+.redes { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; margin: 0; padding: 0; max-width: 170px; }
+.redes a { display: block; width: 24px; height: 24px; border-radius: 50%; transition: transform .15s, box-shadow .2s; }
+.redes a:hover { transform: translateY(-2px) scale(1.08); box-shadow: 0 4px 10px rgba(0,0,0,.25); }
+.redes a:active { transform: scale(.92); }
+.redes svg { display: block; width: 100%; height: 100%; }
+.pie-marca {
+  color: var(--rojo);
+  text-align: center;
+  font-size: clamp(3rem, 10vw, 5.4rem);
+  padding: clamp(28px, 5vw, 48px) 0 8px;
+}
+
+@media (max-width: 900px) {
+  .seguridad-grid { grid-template-columns: 1fr; }
+  .seguridad-imagen { max-width: 100%; }
+  .pie-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 520px) {
+  .pie-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinta-pista { animation: none; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+  .nav-toggle { display: inline-block; }
+  .nav-lista {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    background: var(--blanco);
+    border-bottom: 2px solid var(--negro);
+    padding: 12px var(--margen) 20px;
+  }
+  .nav-lista.abierto { display: flex; }
+  .nav-lista a { display: block; padding: 10px 0; }
+}
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; min-height: 0; }
+  .hero-imagen { border-left: 0; border-top: 3px solid var(--negro); aspect-ratio: 4 / 3; }
+  .mision-grid, .blog-grid, .tiendas-grid { grid-template-columns: 1fr; }
+  .blog-cabecera { flex-direction: column; align-items: flex-start; }
+  .post-vacio .post-cuerpo { min-height: 0; }
+  .pasion .marco { aspect-ratio: 4 / 3; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+
+/* =====================================================
+   Paneles interactivos (Search Results, Donate, etc.)
+   ===================================================== */
+.oculto-visual {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.badge {
+  display: inline-block;
+  min-width: 20px;
+  padding: 1px 6px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: var(--rojo);
+  color: var(--blanco);
+  font-size: .7rem;
+  letter-spacing: 0;
+  line-height: 1.5;
+  text-align: center;
+  vertical-align: middle;
+}
+.badge[hidden] { display: none; }
+
+.panel-fondo {
+  position: fixed; inset: 0; z-index: 90;
+  background: rgba(0, 0, 0, .5);
+  opacity: 0; visibility: hidden;
+  transition: opacity .25s, visibility .25s;
+}
+.panel-fondo.visible { opacity: 1; visibility: visible; }
+
+.panel {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 100;
+  width: min(480px, 100%);
+  display: flex; flex-direction: column;
+  background: var(--blanco);
+  border-left: 3px solid var(--negro);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform .3s ease, visibility .3s;
+}
+.panel.abierto { transform: none; visibility: visible; }
+.panel-cabecera {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 2px solid var(--negro);
+}
+.panel-cabecera h2 { font-size: 1.5rem; }
+.panel-cerrar {
+  width: 40px; height: 40px; flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: 2px solid var(--negro); border-radius: 50%;
+  cursor: pointer;
+  transition: background-color .2s, color .2s, transform .15s;
+}
+.panel-cerrar:hover { background: var(--negro); color: var(--blanco); }
+.panel-cerrar:active { transform: scale(.92); }
+.panel-cerrar svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; }
+.panel-cuerpo { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+.panel-intro { margin: 0; font-size: .95rem; color: #333; }
+.panel-nota { margin: 0; font-size: .8rem; color: #555; }
+
+/* Campos */
+.campo { display: flex; flex-direction: column; gap: 6px; }
+.campo label { font-size: .85rem; font-weight: 500; }
+.campo input[type="search"],
+.campo input[type="text"],
+.campo input[type="number"] {
+  width: 100%;
+  font: 400 1rem var(--cuerpo);
+  padding: 12px 16px;
+  border: 2px solid var(--negro);
+  border-radius: 999px;
+  background: var(--blanco);
+  color: var(--texto);
+}
+.campo input:focus-visible { outline: 3px solid var(--rojo); outline-offset: 2px; }
+.campo-error { margin: 0; color: var(--rojo-oscuro); font-size: .85rem; min-height: 1.2em; }
+
+/* Chips de filtro */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font: 500 .9rem var(--cuerpo);
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 2px solid var(--negro);
+  background: var(--blanco);
+  color: var(--negro);
+  cursor: pointer;
+  transition: background-color .2s, color .2s, transform .15s;
+}
+.chip:hover { background: var(--fondo-alterno); }
+.chip:active { transform: scale(.95); }
+.chip[aria-pressed="true"] { background: var(--negro); color: var(--blanco); }
+
+/* Listas dentro de los paneles */
+.contador { margin: 0; font-size: .85rem; color: #555; min-height: 1.2em; }
+.lista-items { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.item {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  padding: 16px;
+  border: 2px solid var(--borde-suave);
+  background: var(--fondo-seccion);
+  transition: border-color .2s, background-color .2s;
+}
+.item:hover { border-color: var(--negro); }
+.item h3 { margin: 0 0 4px; font: 800 1rem/1.25 var(--display); font-stretch: 110%; }
+.item p { margin: 0; font-size: .9rem; line-height: 1.45; }
+.item .etiqueta-item { color: var(--rojo); font-size: .8rem; margin-bottom: 2px; }
+.item-vacio { display: block; text-align: center; padding: 28px 16px; border-style: dashed; }
+.btn.btn-chico { padding: 8px 18px; font-size: .9rem; white-space: nowrap; }
+.btn[aria-pressed="true"].btn-borde { background: var(--rojo); color: var(--blanco); }
+
+/* Notificaciones */
+.notif { cursor: pointer; align-items: center; }
+.notif .punto { width: 10px; height: 10px; border-radius: 50%; background: var(--rojo); flex: none; margin-top: 6px; }
+.notif.leida .punto { background: transparent; border: 2px solid var(--borde-suave); }
+.notif.leida { background: var(--blanco); color: #555; }
+.notif-texto { flex: 1; }
+.notif small { display: block; margin-top: 4px; font-size: .75rem; color: #666; }
+.notif { text-align: left; width: 100%; font: inherit; color: inherit; }
+
+/* Interruptores (suscripciones) */
+.interruptor { position: relative; display: inline-block; width: 52px; height: 30px; flex: none; }
+.interruptor input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
+.interruptor .pista {
+  position: absolute; inset: 0; border-radius: 999px;
+  background: var(--borde-suave);
+  transition: background-color .2s;
+}
+.interruptor .pista::after {
+  content: ""; position: absolute; top: 3px; left: 3px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--blanco);
+  transition: transform .2s;
+}
+.interruptor input:checked + .pista { background: var(--rojo); }
+.interruptor input:checked + .pista::after { transform: translateX(22px); }
+.interruptor input:focus-visible + .pista { outline: 3px solid var(--rojo); outline-offset: 3px; }
+
+/* Montos de donación */
+.montos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.montos .chip { text-align: center; padding: 12px 8px; }
+.gracias { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 24px; border: 2px solid var(--negro); background: var(--fondo-seccion); }
+.gracias h3 { margin: 0; font: 900 1.6rem/1.1 var(--display); font-stretch: 125%; color: var(--rojo); }
+.gracias p { margin: 0; }
+[hidden] { display: none !important; }
+
+/* Destello al llegar a la sección del blog */
+.destello { animation: destello 1.4s ease; }
+@keyframes destello {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(213, 28, 41, 0); }
+  30% { box-shadow: 0 0 0 10px rgba(213, 28, 41, .35); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .destello { animation: none; }
+  .panel { transition: none; }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Navegación -->
+  <header class="nav">
+    <div class="nav-interior">
+      <a href="#inicio" class="logo" aria-label="MotoSite, inicio">
+        <svg viewBox="0 0 38 30" aria-hidden="true">
+          <path d="M2 28C6 10 18 2 36 2c-9 3-14 8-16 14-1 4-4 8-9 10-3 1-6 2-9 2z" fill="#d51c29"/>
+          <path d="M9 26c3-8 9-13 19-16-6 4-9 8-10 12-1 2-4 4-9 4z" fill="#8f0f19"/>
+        </svg>
+        <span>MotoSite</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
+
+      <nav aria-label="Principal">
+        <ul class="nav-lista" id="menu">
+          <li><a href="#inicio" aria-current="page">Home</a></li>
+          <li><a href="#resultados" data-panel="resultados">Search Results</a></li>
+          <li><a href="#donar" data-panel="donar">Donate</a></li>
+          <li><a href="#suscripciones" data-panel="suscripciones">Mis suscripciones</a></li>
+          <li><a href="#eventos" data-panel="eventos">Eventos</a></li>
+          <li><a href="#blog" data-blog>Blog</a></li>
+          <li><a href="#notificaciones" data-panel="notificaciones">Notification<span class="badge" id="badge-notif" hidden>0</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-texto">
+        <h1 class="display">MOTOSITE</h1>
+        <p>La enciclopedia definitiva del motor. Descubre el legado técnico y la historia de las motocicletas más emblemáticas del mundo.</p>
+        <a href="#modelos" class="btn btn-solido">Explorar<br>Modelos</a>
+      </div>
+      <div class="hero-imagen marco">
+        <img src="https://www.todocircuito.com/ckfinder/userfiles/images/yamaha-r3-2019-ca.jpg" alt="Motocicleta deportiva gris sobre fondo oscuro" onerror="this.style.display='none'">
+      </div>
+    </section>
+
+    <!-- Nuestra misión -->
+    <section class="seccion" id="mision">
+      <div class="contenedor">
+        <h2 class="display titulo-seccion">Nuestra Misión</h2>
+        <hr class="regla">
+        <div class="mision-grid">
+          <p>MotoSite es la enciclopedia definitiva del motor. Nuestra misión es preservar la historia técnica y el legado de las motocicletas a través de un repositorio digital de alta precisión. Cada detalle técnico y cada capítulo de historia se integran en una base de datos exhaustiva, diseñada para ser el recurso de referencia principal para entusiastas y expertos en todo el mundo.</p>
+          <div class="marco">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLQYssQzLzKLPdgRqez_DMosM3fbXt0NO-2J-w8vq2beCZ5PvXYSqIjvk1&s=10" alt="Motor bicilíndrico en V refrigerado por aire" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Últimas actualizaciones -->
+    <section class="seccion" id="blog" style="padding-top:0">
+      <div class="contenedor">
+        <div class="blog-cabecera">
+          <h2 class="display titulo-seccion">Últimas<br>Actualizaciones</h2>
+          <a href="#blog-completo" class="btn btn-borde">Ver todo el Blog</a>
+        </div>
+
+        <div class="blog-grid">
+          <article class="post">
+            <div class="marco"><img src="https://motos.honda.cl/wp-content/uploads/2026/04/SLIDER-MOBILE-CB125Z-994x1024.jpg" alt="Jardín verde al amanecer" onerror="this.style.display='none'"></div>
+            <div class="post-cuerpo">
+              <div class="post-meta">
+                <span class="avatar" aria-hidden="true"></span>
+                <div><span>davidsahortuapi</span><small>21 ago · 3 min de lectura</small></div>
+              </div>
+              <h3><a href="#post-1">The Importance of Sustainable Living in Today's World</a></h3>
+              <p class="post-extracto">Sustainable living is no longer just a trend; it has become a necessity. With the increasing concerns about climate change…</p>
+              <div class="post-pie">
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>0</span>
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4z"/></svg>0</span>
+                <span class="me-gusta" aria-label="Me gusta"><svg viewBox="0 0 24 24"><path d="M12 20.5S3 14.8 3 8.9C3 6.2 5 4.5 7.3 4.5c1.9 0 3.6 1.1 4.7 2.8 1.1-1.7 2.8-2.8 4.7-2.8C19 4.5 21 6.2 21 8.9c0 5.9-9 11.6-9 11.6z"/></svg></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="post">
+            <div class="marco"><img src="https://i.ytimg.com/vi/DmBk-tFkUDA/maxresdefault.jpg" alt="Arroyo entre rocas cubiertas de musgo" onerror="this.style.display='none'"></div>
+            <div class="post-cuerpo">
+              <div class="post-meta">
+                <span class="avatar" aria-hidden="true"></span>
+                <div><span>davidsahortuapi</span><small>21 ago · 4 min de lectura</small></div>
+              </div>
+              <h3><a href="#post-2">The Power of Mindfulness in Everyday Life</a></h3>
+              <p class="post-extracto">Mindfulness has become a buzzword in recent years, but its roots run deep in ancient practices. As we navigate the…</p>
+              <div class="post-pie">
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>0</span>
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4z"/></svg>0</span>
+                <span class="me-gusta" aria-label="Me gusta"><svg viewBox="0 0 24 24"><path d="M12 20.5S3 14.8 3 8.9C3 6.2 5 4.5 7.3 4.5c1.9 0 3.6 1.1 4.7 2.8 1.1-1.7 2.8-2.8 4.7-2.8C19 4.5 21 6.2 21 8.9c0 5.9-9 11.6-9 11.6z"/></svg></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="post post-vacio">
+            <div class="post-cuerpo">
+              <div class="post-meta">
+                <span class="avatar" aria-hidden="true"></span>
+                <div><span>davidsahortuapi</span><small>21 ago · 4 min de lectura</small></div>
+              </div>
+              <h3><a href="#post-3">The Importance of Sustainable Living in Today's World</a></h3>
+              <p class="post-extracto">Sustainable living is no longer just a trend; it has become a necessity. As we face the consequences of climate change, pollutio…</p>
+              <div class="post-pie">
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>0</span>
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4z"/></svg>0</span>
+                <span class="me-gusta" aria-label="Me gusta"><svg viewBox="0 0 24 24"><path d="M12 20.5S3 14.8 3 8.9C3 6.2 5 4.5 7.3 4.5c1.9 0 3.6 1.1 4.7 2.8 1.1-1.7 2.8-2.8 4.7-2.8C19 4.5 21 6.2 21 8.9c0 5.9-9 11.6-9 11.6z"/></svg></span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cultura en movimiento -->
+    <section class="seccion cultura" id="cultura" style="padding-top:0">
+      <div class="contenedor">
+        <h2 class="display titulo-seccion">Cultura en Movimiento</h2>
+        <p>La historia de MotoSite se forja en el asfalto y la pasión por la ingeniería. Lo que comenzó como un pequeño círculo de entusiastas se ha transformado en el club de referencia para la cultura motera, donde el legado técnico se encuentra con la libertad del camino. Aquí, cada miembro es guardián de una tradición que celebra tanto la potencia de las máquinas modernas como la elegancia de los clásicos emblemáticos. Nuestra comunidad no solo comparte rutas, sino un conocimiento profundo que define el sentido de pertenencia a una estirpe que vive por y para el motor.</p>
+        <div class="marco">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2eIaWQ2CdnDWOqt0UahbohLK3IDh2Z08Kl8v_A2TdWRivuFS9qG-jpYCt&s=10" alt="Detalle de las tapas de cilindro de un motor V-twin cromado" onerror="this.style.display='none'">
+        </div>
+      </div>
+    </section>
+
+    <!-- Ingeniería y pasión -->
+    <section class="seccion seccion-alterna pasion" id="comunidad">
+      <div class="contenedor">
+        <h2 class="display">Ingeniería y Pasión</h2>
+        <p>Nuestra comunidad se fundamenta en el respeto por la técnica y la libertad de la ruta. En MotoSite, cada entusiasta encuentra un espacio para profundizar en el legado que define a las dos ruedas, uniendo tradición mecánica con la cultura contemporánea del asfalto.</p>
+        <div class="marco">
+          <img src="https://larevistadelsureste.com/wp-content/uploads/2023/03/rodada-bikers.jpg" alt="Grupo de motociclistas rodando por una carretera de montaña al atardecer" onerror="this.style.display='none'">
+        </div>
+      </div>
+    </section>
+
+    <!-- Tiendas y servicios -->
+    <section class="seccion tiendas" id="tiendas">
+      <div class="contenedor">
+        <h2 class="display">Tiendas y Servicios</h2>
+
+        <div class="tiendas-grid">
+          <article class="tienda">
+            <div class="marco"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzdn0ZZIn-mjfTIGmM6TON5OTAqrPx3EyGCU39UxAHazcLyn3FvVw0GSA&s=10" alt="Cliente eligiendo cascos en una tienda de accesorios" onerror="this.style.display='none'"></div>
+            <p class="tienda-tipo">Accesorios Premium</p>
+            <h3>Custom Gear Madrid</h3>
+            <p class="desc">Especialistas en equipamiento técnico de alta gama y personalización de cascos con materiales certificados.</p>
+            <a href="#mapa-custom-gear" class="btn btn-solido">Ver Mapa</a>
+          </article>
+
+          <article class="tienda">
+            <div class="marco"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDQy8AcLCTf0xyOgRkUhInTERXcHv2-X2PUhaiW-xRzC23ABPR-b-gUpTm&s=10" alt="Mecánico trabajando en una moto sobre un elevador" onerror="this.style.display='none'"></div>
+            <p class="tienda-tipo">Servicio Mecánico</p>
+            <h3>Taller Central Moto</h3>
+            <p class="desc">Expertos en mantenimiento preventivo y reparación de motores de combustión y sistemas electrónicos avanzados.</p>
+            <a href="#mapa-taller-central" class="btn btn-solido">Ver Mapa</a>
+          </article>
+
+          <article class="tienda">
+            <div class="marco"><img src="https://imagenes.portafolio.co/files/image_1200_675//uploads/2025/03/11/67d0336f57240.jpeg" alt="Escapes y amortiguadores exhibidos en una vitrina" onerror="this.style.display='none'"></div>
+            <p class="tienda-tipo">Recambios y Tuning</p>
+            <h3>Apex Performance Shop</h3>
+            <p class="desc">Tienda especializada en componentes de alto rendimiento para competición y optimización dinámica de chasis.</p>
+            <a href="#mapa-apex" class="btn btn-solido">Ver Mapa</a>
+          </article>
+        </div>
+      </div>
+    </section>
+    <!-- Seguridad -->
+    <section class="seguridad" id="seguridad">
+      <div class="contenedor seguridad-grid">
+        <div class="seguridad-texto">
+          <p class="etiqueta">Seguridad primero</p>
+          <h2 class="display">Rutas Seguras,<br>Vidas Largas</h2>
+          <p>La seguridad no es una opción, es una cultura. Descubre las mejores prácticas para rodar protegido y prevenir riesgos innecesarios.</p>
+          <a href="#guia" class="btn btn-solido">Guía<br>Completa</a>
+        </div>
+        <div class="marco seguridad-imagen">
+          <img src="img/casco.jpg" alt="Casco integral negro sobre fondo oscuro" onerror="this.style.display='none'">
+        </div>
+      </div>
+    </section>
+  </main>
+ 
+  <!-- Cinta en movimiento -->
+  <div class="cinta" role="marquee" aria-label="Potencia, diseño, técnica">
+    <div class="cinta-pista">
+      <div class="cinta-grupo">
+        <span>• Potencia • Diseño • Técnica</span>
+        <span>• Potencia • Diseño • Técnica</span>
+        <span>• Potencia • Diseño • Técnica</span>
+        <span>• Potencia • Diseño • Técnica</span>
+      </div>
+      <div class="cinta-grupo" aria-hidden="true">
+        <span>• Potencia • Diseño • Técnica</span>
+        <span>• Potencia • Diseño • Técnica</span>
+        <span>• Potencia • Diseño • Técnica</span>
+        <span>• Potencia • Diseño • Técnica</span>
+      </div>
+    </div>
+  </div>
+ 
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie-grid">
+        <div>
+          <a href="#inicio" class="logo pie-logo" aria-label="MotoSite, inicio">
+            <svg viewBox="0 0 38 30" aria-hidden="true">
+            <path d="M2 28C6 10 18 2 36 2c-9 3-14 8-16 14-1 4-4 8-9 10-3 1-6 2-9 2z" fill="#d51c29"/>
+            <path d="M9 26c3-8 9-13 19-16-6 4-9 8-10 12-1 2-4 4-9 4z" fill="#8f0f19"/>
+          </svg>
+            <span>MotoSite</span>
+          </a>
+        </div>
+ 
+        <div>
+          <h3 class="pie-titulo">Contactos</h3>
+          <p>Digital Database<br><a href="mailto:info@motosite.es">info@motosite.es</a></p>
+        </div>
+ 
+        <div>
+          <h3 class="pie-titulo">Síguenos</h3>
+          <ul class="redes">
+            <li><a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877f2"/><path fill="#fff" d="M13.4 19v-6h2l.4-2.4h-2.4V9.2c0-.7.3-1.2 1.3-1.2h1.2V5.9c-.2 0-1-.1-1.8-.1-1.9 0-3.1 1.1-3.1 3.2v1.6H9v2.4h2v6z"/></svg></a></li>
+            <li><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#e4136f"/><rect x="6.5" y="6.5" width="11" height="11" rx="3.2" fill="none" stroke="#fff" stroke-width="1.5"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="#fff" stroke-width="1.5"/><circle cx="15.4" cy="8.6" r=".8" fill="#fff"/></svg></a></li>
+            <li><a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#f00"/><rect x="5.5" y="7.5" width="13" height="9" rx="2.6" fill="#fff"/><path d="M10.5 9.9v4.2l3.6-2.1z" fill="#f00"/></svg></a></li>
+            <li><a href="#" aria-label="X"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#000"/><path d="M7.5 7.5l9 9M16.5 7.5l-9 9" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></a></li>
+            <li><a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#0a66c2"/><rect x="7" y="10" width="2.2" height="7" fill="#fff"/><circle cx="8.1" cy="7.7" r="1.3" fill="#fff"/><path fill="#fff" d="M11 10h2.1v1c.4-.7 1.2-1.2 2.3-1.2 2 0 2.6 1.3 2.6 3.1V17h-2.2v-3.6c0-.9-.2-1.5-1.1-1.5-.9 0-1.5.6-1.5 1.6V17H11z"/></svg></a></li>
+            <li><a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#000"/><path d="M13 6.5v7.2a2.2 2.2 0 1 1-2.2-2.2M13 6.5c.3 1.6 1.4 2.6 3 2.8" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></a></li>
+          </ul>
+        </div>
+ 
+        <div>
+          <h3 class="pie-titulo">Legal</h3>
+          <p>© 2026 MotoSite<br>Enciclopedia de Motocicletas</p>
+        </div>
+      </div>
+ 
+      <hr class="regla">
+      <p class="pie-marca display" aria-hidden="true">MOTOSITE</p>
+    </div>
+  </footer>
+ 
+  <!-- Panel lateral reutilizable -->
+  <div class="panel-fondo" id="panel-fondo"></div>
+  <aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panel-titulo" aria-hidden="true">
+    <div class="panel-cabecera">
+      <h2 class="display" id="panel-titulo"></h2>
+      <button class="panel-cerrar" id="panel-cerrar" type="button" aria-label="Cerrar panel">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2l12 12M14 2L2 14"/></svg>
+      </button>
+    </div>
+    <div class="panel-cuerpo" id="panel-cuerpo"></div>
+  </aside>
+
+  <!-- Search Results -->
+  <template id="tpl-resultados">
+    <div class="campo">
+      <label for="q">Buscar en la enciclopedia</label>
+      <input id="q" type="search" placeholder="Modelo, marca o tipo de moto" autocomplete="off">
+    </div>
+    <div class="chips" role="group" aria-label="Filtrar por tipo">
+      <button type="button" class="chip" data-f="todas" aria-pressed="true">Todas</button>
+      <button type="button" class="chip" data-f="deportiva" aria-pressed="false">Deportivas</button>
+      <button type="button" class="chip" data-f="clasica" aria-pressed="false">Clásicas</button>
+      <button type="button" class="chip" data-f="trail" aria-pressed="false">Trail</button>
+      <button type="button" class="chip" data-f="custom" aria-pressed="false">Custom</button>
+      <button type="button" class="chip" data-f="scooter" aria-pressed="false">Scooter</button>
+    </div>
+    <p class="contador" aria-live="polite" data-contador></p>
+    <ul class="lista-items" data-lista></ul>
+  </template>
+
+  <!-- Donate -->
+  <template id="tpl-donar">
+    <form data-form novalidate>
+      <p class="panel-intro">Tu aportación mantiene viva la base de datos de MotoSite: digitalización de fichas técnicas y archivo histórico.</p>
+      <div class="chips" role="group" aria-label="Frecuencia" style="margin-top:18px">
+        <button type="button" class="chip" data-freq="unica" aria-pressed="true">Una vez</button>
+        <button type="button" class="chip" data-freq="mensual" aria-pressed="false">Cada mes</button>
+      </div>
+      <div class="montos" role="group" aria-label="Monto" style="margin-top:18px">
+        <button type="button" class="chip" data-monto="5" aria-pressed="false">5 €</button>
+        <button type="button" class="chip" data-monto="10" aria-pressed="false">10 €</button>
+        <button type="button" class="chip" data-monto="25" aria-pressed="true">25 €</button>
+        <button type="button" class="chip" data-monto="50" aria-pressed="false">50 €</button>
+      </div>
+      <div class="campo" style="margin-top:18px">
+        <label for="otro">Otro monto (€)</label>
+        <input id="otro" type="number" min="1" step="1" inputmode="numeric" placeholder="Ej. 15">
+      </div>
+      <div class="campo" style="margin-top:18px">
+        <label for="nombre-donante">Tu nombre (opcional)</label>
+        <input id="nombre-donante" type="text" autocomplete="given-name">
+      </div>
+      <p class="campo-error" data-error role="alert" style="margin-top:10px"></p>
+      <button type="submit" class="btn btn-solido" style="width:100%;margin-top:6px">Donar</button>
+      <p class="panel-nota" style="margin-top:14px">Versión de demostración: no se procesa ningún pago real.</p>
+    </form>
+    <div class="gracias" data-gracias hidden>
+      <h3 class="display">¡Gracias!</h3>
+      <p data-resumen></p>
+      <button type="button" class="btn btn-borde btn-chico" data-otra>Hacer otra donación</button>
+    </div>
+  </template>
+
+  <!-- Mis suscripciones -->
+  <template id="tpl-suscripciones">
+    <p class="panel-intro">Elige qué contenido quieres recibir. Los cambios se guardan en este navegador.</p>
+    <p class="contador" aria-live="polite" data-contador></p>
+    <ul class="lista-items" data-lista></ul>
+    <button type="button" class="btn btn-borde btn-chico" data-todas style="align-self:flex-start"></button>
+  </template>
+
+  <!-- Eventos -->
+  <template id="tpl-eventos">
+    <div class="chips" role="group" aria-label="Filtrar eventos">
+      <button type="button" class="chip" data-f="todos" aria-pressed="true">Todos</button>
+      <button type="button" class="chip" data-f="ruta" aria-pressed="false">Rutas</button>
+      <button type="button" class="chip" data-f="taller" aria-pressed="false">Talleres</button>
+      <button type="button" class="chip" data-f="expo" aria-pressed="false">Exposiciones</button>
+    </div>
+    <p class="contador" aria-live="polite" data-contador></p>
+    <ul class="lista-items" data-lista></ul>
+    <p class="panel-nota">Eventos de ejemplo para la demostración.</p>
+  </template>
+
+  <!-- Notification -->
+  <template id="tpl-notificaciones">
+    <p class="contador" aria-live="polite" data-contador></p>
+    <ul class="lista-items" data-lista></ul>
+    <button type="button" class="btn btn-borde btn-chico" data-leer-todas style="align-self:flex-start">Marcar todas como leídas</button>
+  </template>
+
+  <script>
+  (() => {
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+    /* ---------- Almacenamiento (si el navegador lo bloquea, sigue funcionando) ---------- */
+    const store = {
+      get(k, d) { try { const v = localStorage.getItem('motosite:' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+      set(k, v) { try { localStorage.setItem('motosite:' + k, JSON.stringify(v)); } catch (e) {} }
+    };
+    const norm = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const euros = n => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 }).format(n);
+
+    /* ---------- Menú móvil ---------- */
+    const toggle = $('.nav-toggle');
+    const menu = $('#menu');
+    toggle.addEventListener('click', () => {
+      const abierto = menu.classList.toggle('abierto');
+      toggle.setAttribute('aria-expanded', abierto);
+    });
+    function cerrarMenuMovil() {
+      menu.classList.remove('abierto');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    /* ---------- Datos de ejemplo ---------- */
+    const MODELOS = [
+      { id: 'r3', nombre: 'Yamaha YZF-R3', marca: 'Yamaha', cat: 'deportiva', tipo: 'Deportiva', dato: 'Bicilíndrica · 321 cc' },
+      { id: 'ninja400', nombre: 'Kawasaki Ninja 400', marca: 'Kawasaki', cat: 'deportiva', tipo: 'Deportiva', dato: 'Bicilíndrica · 399 cc' },
+      { id: 'panigale', nombre: 'Ducati Panigale V4', marca: 'Ducati', cat: 'deportiva', tipo: 'Superdeportiva', dato: 'V4 · 1103 cc' },
+      { id: 'hayabusa', nombre: 'Suzuki Hayabusa', marca: 'Suzuki', cat: 'deportiva', tipo: 'Superdeportiva', dato: 'Cuatro cilindros · 1340 cc' },
+      { id: 'cb750', nombre: 'Honda CB750', marca: 'Honda', cat: 'clasica', tipo: 'Clásica', dato: 'Cuatro cilindros · 736 cc · 1969' },
+      { id: 'bonneville', nombre: 'Triumph Bonneville T120', marca: 'Triumph', cat: 'clasica', tipo: 'Clásica', dato: 'Bicilíndrica · 1200 cc' },
+      { id: 'classic350', nombre: 'Royal Enfield Classic 350', marca: 'Royal Enfield', cat: 'clasica', tipo: 'Clásica', dato: 'Monocilíndrica · 349 cc' },
+      { id: 'gs', nombre: 'BMW R 1250 GS', marca: 'BMW', cat: 'trail', tipo: 'Trail', dato: 'Bóxer · 1254 cc' },
+      { id: 'sportster', nombre: 'Harley-Davidson Sportster', marca: 'Harley-Davidson', cat: 'custom', tipo: 'Custom', dato: 'V-twin · 883 / 1200 cc' },
+      { id: 'primavera', nombre: 'Vespa Primavera', marca: 'Vespa', cat: 'scooter', tipo: 'Scooter', dato: 'Monocilíndrica · 50 a 150 cc' }
+    ];
+
+    const TEMAS = [
+      { id: 'blog', nombre: 'Novedades del blog', desc: 'Un aviso cada vez que publicamos un artículo.', activa: true },
+      { id: 'eventos', nombre: 'Eventos y rutas', desc: 'Rodadas, talleres y exposiciones cerca de ti.', activa: true },
+      { id: 'tecnica', nombre: 'Fichas técnicas nuevas', desc: 'Modelos que se añaden a la enciclopedia.', activa: false },
+      { id: 'historia', nombre: 'Historia y clásicos', desc: 'Reportajes sobre motos que hicieron época.', activa: false },
+      { id: 'newsletter', nombre: 'Resumen semanal', desc: 'Un correo corto cada lunes con lo mejor de la semana.', activa: false }
+    ];
+
+    const EVENTOS = [
+      { id: 'e1', fecha: '2026-10-18', titulo: 'Ruta de otoño por la sierra', lugar: 'Salida desde Madrid', cat: 'ruta', desc: '120 km con parada técnica a mitad de camino.' },
+      { id: 'e2', fecha: '2026-10-24', titulo: 'Taller de mantenimiento básico', lugar: 'Taller Central Moto', cat: 'taller', desc: 'Cadena, frenos y neumáticos, paso a paso.' },
+      { id: 'e3', fecha: '2026-11-08', titulo: 'Exposición de clásicos', lugar: 'Madrid', cat: 'expo', desc: 'Motos de los años 60 a los 80 con sus dueños.' },
+      { id: 'e4', fecha: '2026-11-22', titulo: 'Rodada solidaria', lugar: 'Salida desde Madrid', cat: 'ruta', desc: 'Recorrido urbano con recogida de material.' },
+      { id: 'e5', fecha: '2026-12-06', titulo: 'Taller de equipamiento y cascos', lugar: 'Custom Gear Madrid', cat: 'taller', desc: 'Cómo elegir y revisar tu casco y tu ropa técnica.' }
+    ];
+
+    const NOTIFS_INICIALES = [
+      { id: 'n1', texto: 'Nuevo artículo en el blog: The Power of Mindfulness in Everyday Life.', tiempo: 'Hace 2 h', leida: false },
+      { id: 'n2', texto: 'Ya puedes apuntarte a la Ruta de otoño por la sierra.', tiempo: 'Ayer', leida: false },
+      { id: 'n3', texto: 'Tu suscripción a Novedades del blog está activa.', tiempo: 'Hace 3 días', leida: true }
+    ];
+
+    /* ---------- Estado ---------- */
+    let notifs = store.get('notifs', NOTIFS_INICIALES);
+    const badge = $('#badge-notif');
+    function pintarBadge() {
+      const n = notifs.filter(x => !x.leida).length;
+      badge.textContent = n;
+      badge.hidden = n === 0;
+    }
+    function agregarNotif(texto) {
+      notifs.unshift({ id: 'n' + Date.now(), texto, tiempo: 'Ahora', leida: false });
+      notifs = notifs.slice(0, 20);
+      store.set('notifs', notifs);
+      pintarBadge();
+    }
+    pintarBadge();
+
+    /* ---------- Chips de selección única ---------- */
+    function chipsUnicos(root, atributo, alCambiar) {
+      const chips = $$('[' + atributo + ']', root);
+      chips.forEach(c => c.addEventListener('click', () => {
+        chips.forEach(x => x.setAttribute('aria-pressed', String(x === c)));
+        alCambiar(c.getAttribute(atributo));
+      }));
+    }
+
+    /* ---------- Panel lateral ---------- */
+    const panel = $('#panel');
+    const fondo = $('#panel-fondo');
+    const tituloPanel = $('#panel-titulo');
+    const cuerpo = $('#panel-cuerpo');
+    const TITULOS = { resultados: 'Search Results', donar: 'Donate', suscripciones: 'Mis suscripciones', eventos: 'Eventos', notificaciones: 'Notification' };
+    const INICIAR = { resultados: initResultados, donar: initDonar, suscripciones: initSuscripciones, eventos: initEventos, notificaciones: initNotificaciones };
+    let disparador = null;
+    let abiertoAhora = null;
+
+    function marcarActivo(link) {
+      $$('.nav-lista a').forEach(a => a.removeAttribute('aria-current'));
+      if (link) link.setAttribute('aria-current', 'page');
+    }
+
+    function abrir(nombre, link) {
+      const tpl = $('#tpl-' + nombre);
+      if (!tpl) return;
+      disparador = link;
+      abiertoAhora = nombre;
+      cuerpo.replaceChildren(tpl.content.cloneNode(true));
+      tituloPanel.textContent = TITULOS[nombre];
+      INICIAR[nombre](cuerpo);
+      marcarActivo(link);
+      panel.classList.add('abierto');
+      fondo.classList.add('visible');
+      panel.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      cuerpo.scrollTop = 0;
+      $('#panel-cerrar').focus();
+    }
+
+    function cerrar() {
+      if (!abiertoAhora) return;
+      panel.classList.remove('abierto');
+      fondo.classList.remove('visible');
+      panel.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      abiertoAhora = null;
+      marcarActivo($('.nav-lista a[href="#inicio"]'));
+      if (disparador) disparador.focus();
+    }
+
+    $('#panel-cerrar').addEventListener('click', cerrar);
+    fondo.addEventListener('click', cerrar);
+    document.addEventListener('keydown', e => {
+      if (!abiertoAhora) return;
+      if (e.key === 'Escape') { cerrar(); return; }
+      if (e.key === 'Tab') {            // mantiene el foco dentro del panel
+        const f = $$('button, input, a[href]', panel).filter(x => !x.disabled && x.offsetParent !== null);
+        if (!f.length) return;
+        const primero = f[0], ultimo = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+        else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
+      }
+    });
+
+    /* ---------- Clics del menú ---------- */
+    menu.addEventListener('click', e => {
+      const a = e.target.closest('a');
+      if (!a) return;
+      cerrarMenuMovil();
+      if (a.dataset.panel) {
+        e.preventDefault();
+        abrir(a.dataset.panel, a);
+      } else {
+        if (abiertoAhora) cerrar();
+        marcarActivo(a);
+        if (a.hasAttribute('data-blog')) {
+          const rejilla = $('#blog .blog-grid');
+          rejilla.classList.remove('destello');
+          void rejilla.offsetWidth;
+          setTimeout(() => rejilla.classList.add('destello'), 350);
+          rejilla.addEventListener('animationend', () => rejilla.classList.remove('destello'), { once: true });
+        }
+      }
+    });
+
+    /* ---------- Search Results ---------- */
+    function initResultados(root) {
+      const input = $('#q', root), lista = $('[data-lista]', root), cont = $('[data-contador]', root);
+      let filtro = 'todas';
+      let guardados = store.get('guardados', []);
+
+      function pintar() {
+        const q = norm(input.value.trim());
+        const res = MODELOS.filter(m =>
+          (filtro === 'todas' || m.cat === filtro) &&
+          norm(m.nombre + ' ' + m.marca + ' ' + m.tipo).includes(q));
+        cont.textContent = res.length + (res.length === 1 ? ' resultado' : ' resultados');
+        if (!res.length) {
+          lista.innerHTML = '<li class="item item-vacio"><p>No encontramos motos con esa búsqueda. Prueba con otra marca o quita el filtro.</p></li>';
+          return;
+        }
+        lista.innerHTML = res.map(m => {
+          const g = guardados.includes(m.id);
+          return `<li class="item">
+            <div><p class="etiqueta-item">${m.tipo}</p><h3>${m.nombre}</h3><p>${m.dato}</p></div>
+            <button type="button" class="btn btn-borde btn-chico" data-id="${m.id}" aria-pressed="${g}">${g ? 'Guardada' : 'Guardar'}</button>
+          </li>`;
+        }).join('');
+      }
+
+      input.addEventListener('input', pintar);
+      chipsUnicos(root, 'data-f', f => { filtro = f; pintar(); });
+      lista.addEventListener('click', e => {
+        const b = e.target.closest('button[data-id]');
+        if (!b) return;
+        const id = b.dataset.id;
+        guardados = guardados.includes(id) ? guardados.filter(x => x !== id) : [...guardados, id];
+        store.set('guardados', guardados);
+        const g = guardados.includes(id);
+        b.setAttribute('aria-pressed', String(g));
+        b.textContent = g ? 'Guardada' : 'Guardar';
+      });
+      pintar();
+      input.focus();
+    }
+
+    /* ---------- Donate ---------- */
+    function initDonar(root) {
+      const form = $('[data-form]', root), gracias = $('[data-gracias]', root);
+      const otro = $('#otro', root), err = $('[data-error]', root);
+      const montos = $$('[data-monto]', root);
+      let monto = 25, freq = 'unica';
+
+      chipsUnicos(root, 'data-freq', f => { freq = f; });
+      montos.forEach(b => b.addEventListener('click', () => {
+        montos.forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+        monto = Number(b.dataset.monto);
+        otro.value = '';
+        err.textContent = '';
+      }));
+      otro.addEventListener('input', () => {
+        montos.forEach(x => x.setAttribute('aria-pressed', 'false'));
+        monto = parseFloat(otro.value);
+        err.textContent = '';
+      });
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        if (!(monto >= 1)) {
+          err.textContent = 'Elige un monto o escribe uno de al menos 1 €.';
+          otro.focus();
+          return;
+        }
+        const nombre = $('#nombre-donante', root).value.trim();
+        $('[data-resumen]', root).textContent =
+          (nombre ? nombre + ', tu' : 'Tu') + ' donación ' + (freq === 'mensual' ? 'mensual ' : '') +
+          'de ' + euros(monto) + ' ha quedado registrada (demostración).';
+        form.hidden = true;
+        gracias.hidden = false;
+        agregarNotif('Gracias por tu donación de ' + euros(monto) + '.');
+        $('[data-otra]', root).focus();
+      });
+      $('[data-otra]', root).addEventListener('click', () => {
+        gracias.hidden = true;
+        form.hidden = false;
+        form.reset();
+        monto = 25; freq = 'unica';
+        montos.forEach(x => x.setAttribute('aria-pressed', String(x.dataset.monto === '25')));
+        $$('[data-freq]', root).forEach(x => x.setAttribute('aria-pressed', String(x.dataset.freq === 'unica')));
+      });
+      montos[2].focus();
+    }
+
+    /* ---------- Mis suscripciones ---------- */
+    function initSuscripciones(root) {
+      const lista = $('[data-lista]', root), cont = $('[data-contador]', root), btnTodas = $('[data-todas]', root);
+      let estado = store.get('suscripciones', Object.fromEntries(TEMAS.map(t => [t.id, t.activa])));
+
+      function pintarContador() {
+        const n = TEMAS.filter(t => estado[t.id]).length;
+        cont.textContent = n === 0 ? 'No tienes suscripciones activas.' : 'Tienes ' + n + (n === 1 ? ' suscripción activa.' : ' suscripciones activas.');
+        btnTodas.textContent = n === TEMAS.length ? 'Desactivar todas' : 'Activar todas';
+      }
+      lista.innerHTML = TEMAS.map(t => `<li class="item">
+        <div><h3>${t.nombre}</h3><p>${t.desc}</p></div>
+        <label class="interruptor">
+          <input type="checkbox" role="switch" data-id="${t.id}" aria-label="${t.nombre}" ${estado[t.id] ? 'checked' : ''}>
+          <span class="pista"></span>
+        </label>
+      </li>`).join('');
+
+      lista.addEventListener('change', e => {
+        const c = e.target.closest('input[data-id]');
+        if (!c) return;
+        estado[c.dataset.id] = c.checked;
+        store.set('suscripciones', estado);
+        pintarContador();
+        if (c.checked) agregarNotif('Te suscribiste a: ' + TEMAS.find(t => t.id === c.dataset.id).nombre + '.');
+      });
+      btnTodas.addEventListener('click', () => {
+        const activar = !TEMAS.every(t => estado[t.id]);
+        TEMAS.forEach(t => { estado[t.id] = activar; });
+        $$('input[data-id]', lista).forEach(c => { c.checked = activar; });
+        store.set('suscripciones', estado);
+        pintarContador();
+      });
+      pintarContador();
+    }
+
+    /* ---------- Eventos ---------- */
+    function initEventos(root) {
+      const lista = $('[data-lista]', root), cont = $('[data-contador]', root);
+      let filtro = 'todos';
+      let apuntados = store.get('apuntados', []);
+      const NOMBRE_CAT = { ruta: 'Ruta', taller: 'Taller', expo: 'Exposición' };
+      const fmtFecha = iso => new Intl.DateTimeFormat('es-ES', { weekday: 'short', day: 'numeric', month: 'long' }).format(new Date(iso + 'T12:00:00'));
+
+      function pintar() {
+        const res = EVENTOS.filter(ev => filtro === 'todos' || ev.cat === filtro);
+        cont.textContent = 'Estás apuntado a ' + apuntados.length + (apuntados.length === 1 ? ' evento.' : ' eventos.');
+        if (!res.length) { lista.innerHTML = '<li class="item item-vacio"><p>No hay eventos de este tipo por ahora.</p></li>'; return; }
+        lista.innerHTML = res.map(ev => {
+          const a = apuntados.includes(ev.id);
+          return `<li class="item">
+            <div>
+              <p class="etiqueta-item">${NOMBRE_CAT[ev.cat]} · ${fmtFecha(ev.fecha)}</p>
+              <h3>${ev.titulo}</h3>
+              <p>${ev.lugar}. ${ev.desc}</p>
+            </div>
+            <button type="button" class="btn ${a ? 'btn-solido' : 'btn-borde'} btn-chico" data-id="${ev.id}" aria-pressed="${a}">${a ? 'Apuntado' : 'Me apunto'}</button>
+          </li>`;
+        }).join('');
+      }
+
+      chipsUnicos(root, 'data-f', f => { filtro = f; pintar(); });
+      lista.addEventListener('click', e => {
+        const b = e.target.closest('button[data-id]');
+        if (!b) return;
+        const id = b.dataset.id;
+        const ya = apuntados.includes(id);
+        apuntados = ya ? apuntados.filter(x => x !== id) : [...apuntados, id];
+        store.set('apuntados', apuntados);
+        if (!ya) agregarNotif('Te apuntaste a: ' + EVENTOS.find(ev => ev.id === id).titulo + '.');
+        pintar();
+        const nuevo = $('button[data-id="' + id + '"]', lista);
+        if (nuevo) nuevo.focus();
+      });
+      pintar();
+    }
+
+    /* ---------- Notification ---------- */
+    function initNotificaciones(root) {
+      const lista = $('[data-lista]', root), cont = $('[data-contador]', root), btnTodas = $('[data-leer-todas]', root);
+
+      function pintar() {
+        const sin = notifs.filter(n => !n.leida).length;
+        cont.textContent = sin === 0 ? 'Estás al día.' : 'Tienes ' + sin + (sin === 1 ? ' notificación sin leer.' : ' notificaciones sin leer.');
+        btnTodas.hidden = sin === 0;
+        if (!notifs.length) { lista.innerHTML = '<li class="item item-vacio"><p>Aún no tienes notificaciones.</p></li>'; return; }
+        lista.innerHTML = notifs.map(n => `<li>
+          <button type="button" class="item notif ${n.leida ? 'leida' : ''}" data-id="${n.id}" aria-label="${n.leida ? 'Leída' : 'Sin leer'}: ${n.texto.replace(/"/g, '&quot;')}">
+            <span class="punto" aria-hidden="true"></span>
+            <span class="notif-texto">${n.texto}<small>${n.tiempo}</small></span>
+          </button>
+        </li>`).join('');
+      }
+      lista.addEventListener('click', e => {
+        const b = e.target.closest('button[data-id]');
+        if (!b) return;
+        const n = notifs.find(x => x.id === b.dataset.id);
+        if (n && !n.leida) { n.leida = true; store.set('notifs', notifs); pintarBadge(); pintar(); }
+      });
+      btnTodas.addEventListener('click', () => {
+        notifs.forEach(n => { n.leida = true; });
+        store.set('notifs', notifs);
+        pintarBadge();
+        pintar();
+      });
+      pintar();
+    }
+
+    /* ---------- Botones: efecto de onda al hacer clic ---------- */
+    document.addEventListener('pointerdown', e => {
+      const btn = e.target.closest('.btn');
+      if (!btn) return;
+      const r = btn.getBoundingClientRect();
+      const d = Math.max(r.width, r.height);
+      const onda = document.createElement('span');
+      onda.className = 'onda';
+      onda.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - r.left - d / 2}px;top:${e.clientY - r.top - d / 2}px`;
+      btn.appendChild(onda);
+      onda.addEventListener('animationend', () => onda.remove());
+    });
+
+    /* ---------- Me gusta en las entradas del blog ---------- */
+    $$('.me-gusta').forEach(m => {
+      m.setAttribute('role', 'button');
+      m.setAttribute('tabindex', '0');
+      m.setAttribute('aria-pressed', 'false');
+      const alternar = () => {
+        const on = m.classList.toggle('activo');
+        m.setAttribute('aria-pressed', String(on));
+      };
+      m.addEventListener('click', alternar);
+      m.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); alternar(); } });
+    });
+  })();
+  </script>
+</body>
+</html>
